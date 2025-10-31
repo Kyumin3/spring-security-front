@@ -13,20 +13,22 @@ const allMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 function ApiPermissionPage() {
     const [permissions, setPermissions] = useState([]);
     const [editId, setEditId] = useState(null);
-    const [editData, setEditData] = useState({ roles: '', methods: '', path: '' });
+    const [editData, setEditData] = useState({ roles: '', methods: '', path: '', description: '' });
     const [isUpdate, setIsUpdate] = useState(null);
 
     const fetchList = async() => {
         const response = await  getPermissionList();
-        if(response.status === 200){
+        if(response && response.status === 200){
             const convertData = response.data.map((item,index) => ({
                 id : item.id,
                 roles: item.roles ? item.roles.split(",") : [],
                 methods: item.methods ? item.methods.split(",") : [],
-                path : item.path
+                path : item.path,
+                description : item.description
             }))
-            console.log("convertData:::", convertData);
             setPermissions(convertData);
+        } else {
+            setPermissions([]);
         }
     }
 
@@ -41,7 +43,7 @@ function ApiPermissionPage() {
 
         setIsUpdate(true);
         setEditId(item.id);
-        setEditData({ roles: item.roles, methods: item.methods, path: item.path });
+        setEditData({ roles: item.roles, methods: item.methods, path: item.path, description: item.description });
     };
 
     const handleRoleChange = (role) => {
@@ -71,7 +73,8 @@ function ApiPermissionPage() {
         const paramData ={
             methods : editData.methods.join(","),
             roles : editData.roles.join(","),
-            path: editData.path
+            path: editData.path,
+            description: editData.description
         }
         isUpdate ? await updatePermissionInfo(editId,paramData) : await createApiPermission(paramData);
 
@@ -88,14 +91,16 @@ function ApiPermissionPage() {
 
     const handleRegister = () => {
         setIsUpdate(false);
-        const newId = permissions.length + 1;
-        setPermissions([
-            ...permissions,
-            { id: newId, roles: [], methods: [], path: '' },
+        const newId = permissions.length + 2;
+        // console.log("newId::::", newId);
+        setPermissions(prev => [
+            ...prev,
+            { id: prev.length + 2, roles: [], methods: [], path: '', description: '' },
         ]);
         setEditId(newId);
-        setEditData({ roles: [], methods: [], path: '' });
+        setEditData({ roles: '', methods: '', path: '', description: '' });
     };
+
 
     return (
         <div className={styles.container}>
@@ -112,6 +117,7 @@ function ApiPermissionPage() {
                     <th>API주소</th>
                     <th>METHOD</th>
                     <th>권한</th>
+                    <th>설명</th>
                     <th>작업</th>
                 </tr>
                 </thead>
@@ -166,6 +172,19 @@ function ApiPermissionPage() {
                                 </div>
                             ) : (
                                 item.roles.join(', ')
+                            )}
+                        </td>
+                        <td>
+                            {editId === item.id ? (
+                                <input
+                                    className={styles.input}
+                                    value={editData.description}
+                                    onChange={(e) =>
+                                        setEditData({ ...editData, description: e.target.value })
+                                    }
+                                />
+                            ) : (
+                                item.description
                             )}
                         </td>
                         <td>
