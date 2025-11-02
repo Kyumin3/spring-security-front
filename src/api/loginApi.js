@@ -1,6 +1,4 @@
-// src/api/auth.js
-import axios from 'axios';
-import {useNavigation} from "react-router-dom";
+import axiosInstance from '../api/axiosInstance';
 
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -9,17 +7,23 @@ export const login = async (userId, password) => {
 
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/login`, {
+        const response = await axiosInstance.post(`${API_BASE_URL}/login`, {
             userId,
             password,
         }, {
             headers: {
                 "Content-Type": "application/json"
-            },
-            withCredentials: true // ✅ 꼭 있어야 함
+            }
         });
+
+        const token = response.headers['authorization']?.split(' ')[1]; // "Bearer <token>"에서 추출
+
+        if (token) {
+            localStorage.setItem('jwtToken', token); // 또는 sessionStorage
+        }
         // return response.data; // 토큰이나 사용자 정보 반환
         await checkSession();
+
         return response;
 
     } catch (error) {
@@ -30,18 +34,14 @@ export const login = async (userId, password) => {
 };
 
 // 로그아웃 요청 (토큰 필요 시 헤더에 포함)
-export const logout = async (token) => {
+export const jwtLogout = async (token) => {
+
     try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
             `${API_BASE_URL}/logout`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
         );
-        return response.data;
+        localStorage.removeItem('jwtToken');
+        return response;
     } catch (error) {
         throw error.response?.data || error;
     }
@@ -50,10 +50,7 @@ export const logout = async (token) => {
 //세션 기반 로그아웃
 export const sesseionLogout = async (token) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/logout`, {},{
-            withCredentials: true // 세션 기반 인증 시 필수
-        }
-        )
+        const response = await axiosInstance.post(`${API_BASE_URL}/logout`)
 
         return response;
     } catch (error) {
@@ -61,10 +58,12 @@ export const sesseionLogout = async (token) => {
     }
 };
 
-export const checkSession = async (token) => {
+export const checkSession = async () => {
+
     try {
-        const response = await axios.get(`${API_BASE_URL}/session`, {
-            withCredentials: true // 세션 기반 인증 시 필수
+
+        const response = await axiosInstance.get(`${API_BASE_URL}/session`, {
+            useAuth: true
         })
 
         return response;
@@ -76,15 +75,11 @@ export const checkSession = async (token) => {
 
 
 
-
-
 // 로그인 상태 확인 (예: 토큰 유효성 검사)
 export const checkAuth = async (token) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/auth-check`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await axiosInstance.get(`${API_BASE_URL}/auth-check`, {
+            useAuth : true
         });
         return response.data;
     } catch (error) {

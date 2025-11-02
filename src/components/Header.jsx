@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../redux/store/authSlice';
 import styles from '../style/Header.module.css';
-import {sesseionLogout} from "../api/loginApi";
+import {sesseionLogout, jwtLogout} from "../api/loginApi";
 
 function Header() {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Header() {
     const user = useSelector((state) => state.auth.user);
 
     const handleLogout = async () => {
-        const res = await sesseionLogout();
+        const res = await jwtLogout();
 
         if (res.status === 200) {
             dispatch(logout());

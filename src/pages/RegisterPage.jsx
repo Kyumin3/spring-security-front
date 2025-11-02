@@ -19,7 +19,7 @@ function RegisterPage() {
 
         const checkDuplicate = async () => {
             if (!userId) {
-                console.log("???머야야양");
+
                 setIsDuplicate(null);
                 return;
             }
@@ -68,7 +68,7 @@ function RegisterPage() {
         } else {
             alert("서버에러")
         }
-        console.log('회원가입 요청:', { userId, password });
+
     };
 
     return (

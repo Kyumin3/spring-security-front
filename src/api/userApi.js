@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import Cookies from 'js-cookie';
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -6,9 +6,7 @@ const API_BASE_URL = 'http://localhost:8080/api';
 // 로그인 요청
 export const getUserList = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/user`, {
-            withCredentials: true
-        });
+        const response = await axiosInstance.get(`${API_BASE_URL}/user`, {useAuth : true});
         return response;
     } catch (error) {
         // console.error("API1 요청 실패:", error);
@@ -18,14 +16,9 @@ export const getUserList = async () => {
 export const updateUserRole = async (username, newRole) => {
     const csrfToken = Cookies.get('XSRF-TOKEN');
     try {
-        const response = await axios.put(`${API_BASE_URL}/users/${username}/role`, {
+        const response = await axiosInstance.put(`${API_BASE_URL}/users/${username}/role`, {
             role: newRole // 예: "ADMIN,USER"
-        }, {
-            withCredentials: true,
-            headers: {
-                'X-XSRF-TOKEN': csrfToken
-            }
-        });
+        }, {useAuth : true});
         return response;
     } catch (err) {
         return err.response
@@ -36,7 +29,7 @@ export const checkUserId = async (userId) => {
     const csrfToken = Cookies.get('XSRF-TOKEN');
     try {
         // await axios.get(`/api/check-username?username=${username}`)
-        const response = await axios.get(`${API_BASE_URL}/check-username?userId=${userId}`,
+        const response = await axiosInstance.get(`${API_BASE_URL}/check-username?userId=${userId}`,
         // {
         //         withCredentials: true,
         //         headers: {
@@ -52,11 +45,10 @@ export const checkUserId = async (userId) => {
 
 export const createUser = async (userData) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/save-user`, userData, {
+        const response = await axiosInstance.post(`${API_BASE_URL}/save-user`, userData, {
             headers: {
                 "Content-Type": "application/json"
-            },
-            withCredentials: true
+            }
         });
         return response.data;
     } catch (error) {

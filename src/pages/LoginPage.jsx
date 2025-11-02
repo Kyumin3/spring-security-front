@@ -16,6 +16,7 @@ function LoginPage() {
     const gogoLogin = async (e) => {
         e.preventDefault();
         const res = await login(userId, password);
+
         if (res && res.status === 200) {
             const userData = res.data.userData;
             dispatch(loginSuccess(userData));

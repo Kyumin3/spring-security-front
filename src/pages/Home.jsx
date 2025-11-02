@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { sesseionLogout, checkSession } from "../api/loginApi";
+import { sesseionLogout, jwtLogout ,checkSession } from "../api/loginApi";
 import { api1, api2 } from "../api/testApi";
 import { logout } from '../redux/store/authSlice';
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ function Home() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
     const handleLogout = async () => {
-        const res = await sesseionLogout();
+        const res = await jwtLogout();
         if (res.status === 200) {
             dispatch(logout());
         }

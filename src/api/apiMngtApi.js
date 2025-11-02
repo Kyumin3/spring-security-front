@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import Cookies from 'js-cookie';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
-// 로그인 요청
 export const getPermissionList = async () => {
+    const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.get(`${API_BASE_URL}/permissions`, {
-            withCredentials: true
+        const response = await axiosInstance.get(`${API_BASE_URL}/permissions`, {
+            useAuth : true
         });
         return response;
     } catch (error) {
@@ -17,12 +17,10 @@ export const getPermissionList = async () => {
 
 export const updatePermissionInfo = async (id, updatedData) => {
     const csrfToken = Cookies.get('XSRF-TOKEN');
+    const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.put(`${API_BASE_URL}/permission/${id}`, updatedData, {
-            withCredentials: true,
-            headers: {
-                'X-XSRF-TOKEN': csrfToken
-            }
+        const response = await axiosInstance.put(`${API_BASE_URL}/permission/${id}`, updatedData, {
+            useAuth : true
         });
         return response;
     } catch (error) {
@@ -34,14 +32,9 @@ export const updatePermissionInfo = async (id, updatedData) => {
 
 export const createApiPermission = async (apiData) => {
     const csrfToken = Cookies.get('XSRF-TOKEN');
+    const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.post(`${API_BASE_URL}/save-permission`, apiData, {
-            headers: {
-                "Content-Type": "application/json",
-                'X-XSRF-TOKEN': csrfToken
-            },
-            withCredentials: true
-        });
+        const response = await axiosInstance.post(`${API_BASE_URL}/save-permission`, apiData, {useAuth : true});
         return response.data;
     } catch (error) {
 
@@ -53,14 +46,9 @@ export const createApiPermission = async (apiData) => {
 
 export const deleteApiPermission = async (id) => {
     const csrfToken = Cookies.get('XSRF-TOKEN');
+    const token = localStorage.getItem('jwtToken');
     try {
-        const response = await axios.delete(`${API_BASE_URL}/permission/${id}`, {
-            headers: {
-                "Content-Type": "application/json",
-                'X-XSRF-TOKEN': csrfToken
-            },
-            withCredentials: true
-        });
+        const response = await axiosInstance.delete(`${API_BASE_URL}/permission/${id}`, {useAuth : true});
         return response.data;
     } catch (error) {
 

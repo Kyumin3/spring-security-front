@@ -92,7 +92,7 @@ function ApiPermissionPage() {
     const handleRegister = () => {
         setIsUpdate(false);
         const newId = permissions.length + 2;
-        // console.log("newId::::", newId);
+
         setPermissions(prev => [
             ...prev,
             { id: prev.length + 2, roles: [], methods: [], path: '', description: '' },

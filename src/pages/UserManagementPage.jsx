@@ -55,7 +55,7 @@ function UserManagementPage() {
     useEffect(() => {
 
         fetchUsers();
-        // console.log("Res:::",res);
+
     }, []);
 
     const handleEdit = (user) => {
