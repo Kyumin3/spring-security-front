@@ -2,15 +2,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkSession } from '../api/loginApi';
+import { useDispatch } from 'react-redux';
 
 export default function RequireAdmin({ children }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [isAuthorized, setIsAuthorized] = useState(null);
 
     useEffect(() => {
         const validateSession = async () => {
             try {
-                const response = await checkSession();
+                const response = await checkSession(dispatch);
                 const isAdmin = response.status === 200 &&
                     response.data.username &&
                     ["ROLE_ADMIN", "ROLE_MASTER"].some(role => response.data.roles.includes(role));

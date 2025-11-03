@@ -1,5 +1,5 @@
 import axiosInstance from '../api/axiosInstance';
-import {logout} from "../redux/store/authSlice";
+import {loginSuccess, logout} from "../redux/store/authSlice";
 
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -63,14 +63,27 @@ export const sesseionLogout = async (token) => {
     }
 };
 
-export const checkSession = async () => {
+export const checkSession = async (dispatch) => {
 
     try {
-
         const response = await axiosInstance.get(`${API_BASE_URL}/session`, {
             useAuth: true
         })
-
+        if (response?.status === 200) {
+            const token = response.headers['authorization']?.split(' ')[1];
+            localStorage.setItem('jwtToken', token);
+            dispatch(loginSuccess(
+                {
+                    userData : {
+                        username: response.data?.username,
+                        roles: response.data?.roles.map(role => role.replace("ROLE_", ""))
+                    },
+                    token: token
+                }
+            ));
+        } else {
+            dispatch(logout());
+        }
         return response;
     } catch (error) {
         // throw error.response?.data || error;

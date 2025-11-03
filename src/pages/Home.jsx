@@ -16,7 +16,7 @@ function Home() {
     };
 
     const moveToAdmin = async() => {
-        const response = await checkSession();
+        const response = await checkSession(dispatch);
         if(response.status === 200 &&  response.data.username && ["ROLE_ADMIN", "ROLE_MASTER"].some(role => response.data.roles.includes(role))  ) {
             navigate("/admin")
         } else {

@@ -8,15 +8,7 @@ const AuthProvider = ({ children }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        checkSession().then(res => {
-            if (res?.status === 200) {
-                dispatch(loginSuccess({
-                    username: res.data.username,
-                    roles: res.data.roles
-                }));
-            } else {
-                dispatch(logout());
-            }
+        checkSession(dispatch).then(res => {
         });
     }, [dispatch]);
 
