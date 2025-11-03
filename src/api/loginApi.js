@@ -1,7 +1,9 @@
 import axiosInstance from '../api/axiosInstance';
+import {logout} from "../redux/store/authSlice";
 
 
 const API_BASE_URL = 'http://localhost:8080/api';
+
 // 로그인 요청
 export const login = async (userId, password) => {
 
@@ -34,13 +36,16 @@ export const login = async (userId, password) => {
 };
 
 // 로그아웃 요청 (토큰 필요 시 헤더에 포함)
-export const jwtLogout = async (token) => {
-
+export const jwtLogout = async (dispatch,navigate) => {
     try {
         const response = await axiosInstance.post(
             `${API_BASE_URL}/logout`,
         );
         localStorage.removeItem('jwtToken');
+        if (response.status === 200) {
+            dispatch(logout());
+            navigate('/');
+        }
         return response;
     } catch (error) {
         throw error.response?.data || error;

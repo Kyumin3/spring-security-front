@@ -12,10 +12,7 @@ function Home() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
     const handleLogout = async () => {
-        const res = await jwtLogout();
-        if (res.status === 200) {
-            dispatch(logout());
-        }
+        await jwtLogout(dispatch,navigate);
     };
 
     const moveToAdmin = async() => {

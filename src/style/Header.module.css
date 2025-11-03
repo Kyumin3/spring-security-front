@@ -1,61 +1,70 @@
-/* Header.module.css */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #1e1e2f;
+    color: #ffffff;
     padding: 16px 32px;
-    background-color: #34495e;
-    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    color: #61dafb;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: #21a1f1;
 }
 
 .userInfo {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-.loginBtn,
-.logoutBtn {
-    background-color: #3498db;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.logoutBtn {
-    background-color: #e74c3c;
-}
-
-.loginBtn:hover {
-    background-color: #2980b9;
-}
-
-.logoutBtn:hover {
-    background-color: #c0392b;
+    gap: 16px;
 }
 
 .loggedIn {
     display: flex;
     align-items: center;
     gap: 12px;
+    background-color: #2c2c3e;
+    padding: 8px 16px;
+    border-radius: 8px;
 }
 
 .username {
-    font-weight: bold;
+    font-weight: 600;
+    color: #ffffff;
 }
 
 .roles {
-    font-size: 12px;
-    color: #ecf0f1;
+    font-size: 14px;
+    color: #bbbbbb;
+}
+
+.timer {
+    font-size: 14px;
+    color: #ffcc00;
+    font-weight: 500;
+}
+
+.loginBtn,
+.logoutBtn {
+    background-color: #61dafb;
+    color: #1e1e2f;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.loginBtn:hover,
+.logoutBtn:hover {
+    background-color: #21a1f1;
 }

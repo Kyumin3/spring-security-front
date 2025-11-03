@@ -18,8 +18,13 @@ function LoginPage() {
         const res = await login(userId, password);
 
         if (res && res.status === 200) {
+
             const userData = res.data.userData;
-            dispatch(loginSuccess(userData));
+            const token = res.headers['authorization']?.split(' ')[1];
+            dispatch(loginSuccess({
+                userData: userData,
+                token: token
+            }));
             navigate("/");
         } else {
             setErrorMsg('아이디 또는 비밀번호가 올바르지 않습니다.');
