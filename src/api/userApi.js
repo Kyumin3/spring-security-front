@@ -43,6 +43,17 @@ export const checkUserId = async (userId) => {
     }
 };
 
+export const checkEmail = async (email) => {
+    const csrfToken = Cookies.get('XSRF-TOKEN');
+    try {
+        const response = await axiosInstance.get(`${API_BASE_URL}/check-email?email=${email}`,
+        );
+        return response;
+    } catch (err) {
+        return err.response
+    }
+};
+
 export const createUser = async (userData) => {
     try {
         const response = await axiosInstance.post(`${API_BASE_URL}/save-user`, userData, {

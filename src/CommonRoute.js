@@ -9,6 +9,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
 import ApiPermissionPage from "./pages/ApiPermissionPage";
 import Layout from "../src/components/Layout";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ResetPasswordConfirmPage from "./pages/ResetPasswordConfirmPage";
 
 export default function CommonRoute() {
     return (
@@ -19,6 +21,8 @@ export default function CommonRoute() {
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/regist" element={<RegisterPage />} />
+                        <Route path="/reset-password" element={<ResetPasswordPage />} />
+                        <Route path="/reset-password/confirm" element={<ResetPasswordConfirmPage />} />
                         <Route
                             path="/admin"
                             element={

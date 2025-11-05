@@ -66,6 +66,12 @@ function LoginPage() {
                     회원가입
                 </button>
             </div>
+            <div className={styles.resetContainer}>
+                <span>비밀번호를 잊으셨나요?</span>
+                <button className={styles.resetBtn} onClick={() => navigate('/reset-password')}>
+                    비밀번호 재설정
+                </button>
+            </div>
         </div>
     );
 }

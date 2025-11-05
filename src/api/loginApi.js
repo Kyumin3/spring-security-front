@@ -91,6 +91,33 @@ export const checkSession = async (dispatch) => {
     }
 };
 
+export const sendResetEmail = async (email) => {
+    try {
+        return await axiosInstance.post(`${API_BASE_URL}/reset-password/request`, { email });
+    } catch (error) {
+        return { status: 500 };
+    }
+};
+
+export const validateEmailToken = async (token) => {
+    try {
+        return await axiosInstance.post(`${API_BASE_URL}/reset-password/validate`, { token });
+    } catch (error) {
+        return { status: 500 };
+    }
+};
+
+export const updatePassword = async (token, newPassword) => {
+    try {
+        return await axiosInstance.post(`${API_BASE_URL}/reset-password/update`, {
+            token,
+            newPassword
+        });
+    } catch (error) {
+        return { status: 500 };
+    }
+};
+
 
 
 // 로그인 상태 확인 (예: 토큰 유효성 검사)
