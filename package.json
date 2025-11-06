@@ -22,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "set-env-ip": "node src/js/set-env-ip.js",
+    "start:ip": "npm run set-env-ip && react-scripts start"
   },
   "eslintConfig": {
     "extends": [

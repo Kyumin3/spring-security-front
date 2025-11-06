@@ -1,15 +1,12 @@
 import axiosInstance from '../api/axiosInstance';
 import {loginSuccess, logout} from "../redux/store/authSlice";
 
-
-const API_BASE_URL = 'http://localhost:8080/api';
-
 // 로그인 요청
 export const login = async (userId, password) => {
 
 
     try {
-        const response = await axiosInstance.post(`${API_BASE_URL}/login`, {
+        const response = await axiosInstance.post(`/login`, {
             userId,
             password,
         }, {
@@ -39,7 +36,7 @@ export const login = async (userId, password) => {
 export const jwtLogout = async (dispatch,navigate) => {
     try {
         const response = await axiosInstance.post(
-            `${API_BASE_URL}/logout`,
+            `/logout`,
         );
         localStorage.removeItem('jwtToken');
         if (response.status === 200) {
@@ -55,7 +52,7 @@ export const jwtLogout = async (dispatch,navigate) => {
 //세션 기반 로그아웃
 export const sesseionLogout = async (token) => {
     try {
-        const response = await axiosInstance.post(`${API_BASE_URL}/logout`)
+        const response = await axiosInstance.post(`/logout`)
 
         return response;
     } catch (error) {
@@ -66,7 +63,7 @@ export const sesseionLogout = async (token) => {
 export const checkSession = async (dispatch) => {
 
     try {
-        const response = await axiosInstance.get(`${API_BASE_URL}/session`, {
+        const response = await axiosInstance.get(`/session`, {
             useAuth: true
         })
         if (response?.status === 200) {
@@ -93,7 +90,7 @@ export const checkSession = async (dispatch) => {
 
 export const sendResetEmail = async (email) => {
     try {
-        return await axiosInstance.post(`${API_BASE_URL}/reset-password/request`, { email });
+        return await axiosInstance.post(`/reset-password/request`, { email });
     } catch (error) {
         return { status: 500 };
     }
@@ -101,7 +98,7 @@ export const sendResetEmail = async (email) => {
 
 export const validateEmailToken = async (token) => {
     try {
-        return await axiosInstance.post(`${API_BASE_URL}/reset-password/validate`, { token });
+        return await axiosInstance.post(`/reset-password/validate`, { token });
     } catch (error) {
         return { status: 500 };
     }
@@ -109,7 +106,7 @@ export const validateEmailToken = async (token) => {
 
 export const updatePassword = async (token, newPassword) => {
     try {
-        return await axiosInstance.post(`${API_BASE_URL}/reset-password/update`, {
+        return await axiosInstance.post(`/reset-password/update`, {
             token,
             newPassword
         });
@@ -123,7 +120,7 @@ export const updatePassword = async (token, newPassword) => {
 // 로그인 상태 확인 (예: 토큰 유효성 검사)
 export const checkAuth = async (token) => {
     try {
-        const response = await axiosInstance.get(`${API_BASE_URL}/auth-check`, {
+        const response = await axiosInstance.get(`/auth-check`, {
             useAuth : true
         });
         return response.data;

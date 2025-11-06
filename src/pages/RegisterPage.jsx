@@ -87,7 +87,7 @@ function RegisterPage() {
             return;
         }
         const response = await createUser({
-            userId : userId, password :password
+            userId : userId, password :password, email:email
         });
         if(response.status === 'success'){
             alert("가입완료")

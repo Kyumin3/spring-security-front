@@ -2,8 +2,10 @@ import axios from 'axios';
 import store from '../redux/store/store';
 import {updateToken} from "../redux/store/authSlice";
 
+console.log("process.env.REACT_APP_API_BASE_URL:::", process.env.REACT_APP_API_BASE_URL)
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    // baseURL: "http://192.168.1.13:8080/api",
     withCredentials: true
 });
 
